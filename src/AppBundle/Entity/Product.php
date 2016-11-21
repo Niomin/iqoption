@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\MappedSuperclass(repositoryClass="ProductRepository")
- * @ ORM\Entity
  */
 class Product
 {
