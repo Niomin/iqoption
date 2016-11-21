@@ -1,0 +1,6 @@
+<div class="category{% if current == category.url %} category-current{% endif %}">
+    <a href="{{ url('index_action', {'category': category.url}) }}">{{ category.name }}</a>
+    {% for category in category.childrenCategories %}
+        {% include ':default:category.html.twig' %}
+    {% endfor %}
+</div>

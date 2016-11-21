@@ -1,0 +1,25 @@
+services:
+    app.repository.product:
+        class: AppBundle\Entity\ProductRepository
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'AppBundle:Product'
+
+    app.repository.category:
+        class: AppBundle\Entity\CategoryRepository
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'AppBundle:Category'
+
+    app.servises.category_creator:
+        class: AppBundle\Services\CategoryCreator
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@app.repository.product'
+
+    app.services.generator:
+        class: AppBundle\Services\GeneratorService
+        arguments:
+            - '@app.servises.category_creator'
+            - '@app.repository.category'
+            - '@app.repository.product'

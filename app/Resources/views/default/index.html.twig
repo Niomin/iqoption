@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <div class="header">
+            <div class="search">
+                <label for="search">Поиск по товарам:</label>
+                <input type="text" id="search">
+            </div>
+            <div class="navigation">
+                <button class="navigation-show">Показать список категорий</button>
+                <div class="categories">
+                    <button class="navigation-hide">Скрыть список категорий</button>
+                    {% for category in categories %}
+                        {% if category.parentCategory is empty %}
+                            {% include ':default:category.html.twig' %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="body">
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style type="text/css">
+        .categories > .category {
+            border: 1px solid black;
+            margin: 3px 0;
+            width: 200px;
+        }
+
+        .category {
+            display: inline-block;
+            width: 100%;
+            padding-left: 15px;
+        }
+
+        .search input {
+            width: 200px;
+        }
+
+        .search {
+            margin-bottom: 20px;
+        }
+
+        .categories {
+            display: none;
+        }
+        
+        .category-current {
+            color: pink;
+            font-weight: bold;
+        }
+        .navigation button {
+            display: block;
+        }
+
+        .product {
+            width: 250px;
+            display: inline-block;
+            border: 1px solid black;
+        }
+    </style>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        var productsUrl = '{{ url('products_action', {'categoryName': current}) }}';
+    </script>
+    {{ parent() }}
+{% endblock %}
