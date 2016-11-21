@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,6 +22,16 @@ class DefaultController extends Controller
     {
         //Эту страницу стоит кэшировать nginx'ом.
         $categories = $this->get('app.repository.category')->loadTree();
+        $error = true;
+        foreach ($categories as $cat) {
+            if ($cat->getUrl() == $category) {
+                $error = false;
+                break;
+            }
+        }
+        if ($error) {
+            throw $this->createNotFoundException('Категория не найдена');
+        }
         if (!$category) {
             foreach ($categories as $cat) {
                 if ($cat->isDefault()) {
