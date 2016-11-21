@@ -29,7 +29,7 @@ class ProductRepository extends EntityRepository
     {
         $tableName = $this->getTableName($category);
         $search = trim($search);
-        $search = preg_replace('/([|&])/', '\\$1', $search);
+        $search = preg_replace('/[^a-zA-Z ]/', '', $search);
         $search = preg_replace('/\s+/', '|', $search);
         if ($search) {
             $sql = <<<sql
