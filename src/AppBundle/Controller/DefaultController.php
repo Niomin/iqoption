@@ -22,21 +22,23 @@ class DefaultController extends Controller
     {
         //Эту страницу стоит кэшировать nginx'ом.
         $categories = $this->get('app.repository.category')->loadTree();
-        $error = true;
-        foreach ($categories as $cat) {
-            if ($cat->getUrl() == $category) {
-                $error = false;
-                break;
-            }
-        }
-        if ($error) {
-            throw $this->createNotFoundException('Категория не найдена');
-        }
+
         if (!$category) {
             foreach ($categories as $cat) {
                 if ($cat->isDefault()) {
                     $category = $cat->getUrl();
                 }
+            }
+        } else {
+            $error = true;
+            foreach ($categories as $cat) {
+                if ($cat->getUrl() == $category) {
+                    $error = false;
+                    break;
+                }
+            }
+            if ($error) {
+                throw $this->createNotFoundException('Категория не найдена');
             }
         }
         return $this->render('default/index.html.twig', [
